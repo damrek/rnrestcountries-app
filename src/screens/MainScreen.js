@@ -57,16 +57,18 @@ const MainScreen = ({ navigation }) => {
           size="large"
           animating={true}
           color={isThemeDark ? Colors.white : Colors.black}
+          style={styles.activityIndicator}
         />
       )}
       {countries && !isFetching && !isLoading && (
         <FlatList
           data={countries}
-          initialNumToRender={2}
+          initialNumToRender={5}
+          maxToRenderPerBatch={3}
+          windowSize={7}
           renderItem={memoizedRenderFunc}
           keyExtractor={(item) => item.id}
           style={styles.scrollView}
-          maxToRenderPerBatch={1}
           removeClippedSubviews={false}
         />
       )}
@@ -101,6 +103,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#232323',
     color: 'black',
     elevation: 2,
+  },
+  activityIndicator: {
+    height: '50%',
   },
 });
 
