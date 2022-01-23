@@ -15,7 +15,7 @@ const transformedResponse = (response) => {
         subregion,
         borders,
         tld,
-        languages,
+        languages: languages && Object.values(languages),
         flag: flags?.png,
       });
     }
@@ -71,4 +71,16 @@ export const countriesApi = createApi({
   }),
 });
 
+export const countriesApiCodes = createApi({
+  reducerPath: 'countriesCodesApi',
+  keepUnusedDataFor: 999_999,
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://restcountries.com/v2/all' }),
+  endpoints: (builder) => ({
+    getAllCodes: builder.query({
+      query: () => `?fields=name,alpha3Code`,
+    }),
+  }),
+});
+
 export const { useGetAllCountriesQuery } = countriesApi;
+export const { useGetAllCodesQuery } = countriesApiCodes;

@@ -1,11 +1,37 @@
-import React from 'react';
+import React, { useContext, useMemo } from 'react';
 import { Image, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
 import { Surface, Text, Title } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { PreferencesContext } from '../context/PreferencesContext';
+import { useGetAllCodesQuery } from '../services/countriesService';
 
 const CountryScreen = ({ route }) => {
-  const { name, nativeName, population, region, subregion, capital, flag, borders, tld } =
-    route?.params || {};
+  const {
+    name,
+    nativeName,
+    population,
+    region,
+    subregion,
+    capital,
+    flag,
+    borders,
+    tld,
+    languages,
+  } = route?.params || {};
+  const { isThemeDark } = useContext(PreferencesContext);
+  const { data: countriesCodes } = useGetAllCodesQuery();
+
+  const borderCountries = useMemo(
+    () => countriesCodes && Object.entries(countriesCodes).flat(2),
+    [countriesCodes]
+  );
+  const filteredBorderCountries = useMemo(
+    () =>
+      borders &&
+      borderCountries &&
+      borderCountries.filter(({ alpha3Code }) => borders.includes(alpha3Code)),
+    [borders, borderCountries]
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -39,21 +65,20 @@ const CountryScreen = ({ route }) => {
             Top Level Domain: <Text style={styles.text}>{tld}</Text>
           </Text>
           <Text style={styles.subtitle}>
-            Currencies: <Text style={styles.text}>{capital}</Text>
-          </Text>
-          <Text style={styles.subtitle}>
-            Languages: <Text style={styles.text}>{capital}</Text>
+            Languages: <Text style={styles.text}>{languages.toString()}</Text>
           </Text>
         </Surface>
-        {borders && borders.length > 0 && (
+        {filteredBorderCountries && filteredBorderCountries.length > 0 && (
           <Surface style={styles.bordersRoot}>
             <Title style={styles.title}>Border countries</Title>
             <View style={styles.bordersView}>
-              {borders &&
-                borders.length > 0 &&
-                borders.map((border, index) => (
-                  <View key={index} style={styles.borderItem}>
-                    <Text>{border}</Text>
+              {filteredBorderCountries &&
+                filteredBorderCountries.length > 0 &&
+                filteredBorderCountries.map(({ name: countryName }, index) => (
+                  <View key={index} style={isThemeDark ? styles.darkBorderItem : styles.borderItem}>
+                    <Text style={isThemeDark ? styles.darkTextBorderItem : styles.textBorderItem}>
+                      {countryName}
+                    </Text>
                   </View>
                 ))}
             </View>
@@ -113,11 +138,29 @@ const styles = StyleSheet.create({
   bordersView: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    alignItems: 'center',
   },
   borderItem: {
-    width: '33%',
-    padding: 3,
-    alignItems: 'flex-start',
+    padding: 6,
+    marginBottom: 10,
+    marginRight: 10,
+    alignItems: 'center',
+    backgroundColor: '#929292',
+    borderRadius: 5,
+  },
+  darkBorderItem: {
+    padding: 6,
+    marginBottom: 10,
+    marginRight: 10,
+    alignItems: 'center',
+    backgroundColor: '#121212',
+    borderRadius: 5,
+  },
+  textBorderItem: {
+    color: 'white',
+  },
+  darkTextBorderItem: {
+    color: '#929292',
   },
 });
 export default CountryScreen;

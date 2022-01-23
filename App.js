@@ -47,14 +47,14 @@ export default function App() {
   );
 
   return (
-    <PreferencesContext.Provider value={preferences}>
-      <Provider store={store}>
-        <PaperProvider theme={theme}>
-          <NavigationContainer theme={theme}>
+    <Provider store={store}>
+      <PaperProvider theme={theme}>
+        <NavigationContainer theme={theme}>
+          <PreferencesContext.Provider value={preferences}>
             <Main />
-          </NavigationContainer>
-        </PaperProvider>
-      </Provider>
-    </PreferencesContext.Provider>
+          </PreferencesContext.Provider>
+        </NavigationContainer>
+      </PaperProvider>
+    </Provider>
   );
 }
