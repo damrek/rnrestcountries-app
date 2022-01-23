@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Appbar } from 'react-native-paper';
 import { PreferencesContext } from '../../context/PreferencesContext';
 
-const MainAppBar = ({ navigation, route, back }) => {
+const MainAppBar = React.memo(({ navigation, route, back }) => {
   const { toggleTheme } = useContext(PreferencesContext);
 
   const { name } = route?.params || {};
@@ -14,6 +14,6 @@ const MainAppBar = ({ navigation, route, back }) => {
       {!route.params && <Appbar.Action icon="theme-light-dark" onPress={() => toggleTheme()} />}
     </Appbar.Header>
   );
-};
+});
 
 export default MainAppBar;
