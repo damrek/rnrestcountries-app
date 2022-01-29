@@ -7,8 +7,7 @@ import { Appbar, TextInput } from 'react-native-paper';
 import DropDown from 'react-native-paper-dropdown';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
-import { darkTheme, defaultTheme } from '../../App';
-import { PreferencesContext } from '../context/PreferencesContext';
+import PreferencesContext, { darkTheme, defaultTheme } from '../context/PreferencesContext';
 import { change, cleanAll } from '../features/filter/filterSlice';
 
 const regionList = [
@@ -45,11 +44,11 @@ const languageList = [
   },
   {
     label: 'English',
-    value: 'eng',
+    value: 'English',
   },
   {
     label: 'Spanish',
-    value: 'spa',
+    value: 'Spanish',
   },
 ];
 

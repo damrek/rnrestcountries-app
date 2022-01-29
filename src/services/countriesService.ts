@@ -58,7 +58,7 @@ export const countriesApi = createApi({
         }
 
         if (language) {
-          data = data.filter(({ languages }) => languages?.[language]);
+          data = data.filter(({ languages }) => languages?.includes(language));
         }
 
         if (region) {

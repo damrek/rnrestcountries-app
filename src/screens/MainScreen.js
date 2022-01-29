@@ -5,7 +5,7 @@ import { ActivityIndicator, Colors, Snackbar, TextInput } from 'react-native-pap
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import CardComponent from '../components/CardComponent';
-import { PreferencesContext } from '../context/PreferencesContext';
+import PreferencesContext from '../context/PreferencesContext';
 import { useDebounce } from '../hooks/useDebounce';
 import { useGetAllCountriesQuery } from '../services/countriesService';
 
