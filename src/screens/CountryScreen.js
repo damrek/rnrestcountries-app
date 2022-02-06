@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import React, { useContext, useMemo } from 'react';
 import { Image, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
 import { Surface, Text, Title } from 'react-native-paper';
@@ -21,16 +22,12 @@ const CountryScreen = ({ route }) => {
   const { isThemeDark } = useContext(PreferencesContext);
   const { data: countriesCodes } = useGetAllCodesQuery();
 
-  const borderCountries = useMemo(
-    () => countriesCodes && Object.entries(countriesCodes).flat(2),
-    [countriesCodes]
-  );
   const filteredBorderCountries = useMemo(
     () =>
       borders &&
-      borderCountries &&
-      borderCountries.filter(({ alpha3Code }) => borders.includes(alpha3Code)),
-    [borders, borderCountries]
+      !isEmpty(countriesCodes) &&
+      countriesCodes.filter(({ alpha3Code }) => borders.includes(alpha3Code)),
+    [borders, countriesCodes]
   );
 
   return (

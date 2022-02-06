@@ -47,22 +47,24 @@ export const countriesApi = createApi({
           );
         }
 
-        if (!isEmpty(debouncedSearchTerm)) {
-          data = data.filter(({ name }) =>
-            name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
-          );
-        }
-
         if (population && population >= 0) {
           data = data.filter(({ population: pop }) => pop >= population);
         }
 
         if (language) {
-          data = data.filter(({ languages }) => languages?.[language]);
+          data = data.filter(
+            ({ languages }) => !isEmpty(languages) && languages.includes(language)
+          );
         }
 
         if (region) {
           data = data.filter(({ region: reg }) => reg.includes(region));
+        }
+
+        if (!isEmpty(debouncedSearchTerm)) {
+          data = data.filter(({ name }) =>
+            name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+          );
         }
 
         return allCountries.data ? { data: data } : { error: allCountries.error };
@@ -78,6 +80,7 @@ export const countriesApiCodes = createApi({
   endpoints: (builder) => ({
     getAllCodes: builder.query({
       query: () => `?fields=name,alpha3Code`,
+      transformResponse: (countriesCodes) => Object.entries(countriesCodes).flat(2),
     }),
   }),
 });
