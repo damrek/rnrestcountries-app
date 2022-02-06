@@ -3,7 +3,7 @@ import React, { useContext, useMemo } from 'react';
 import { Image, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
 import { Surface, Text, Title } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { PreferencesContext } from '../context/PreferencesContext';
+import PreferencesContext from '../context/PreferencesContext';
 import { useGetAllCodesQuery } from '../services/countriesService';
 
 const CountryScreen = ({ route }) => {
@@ -46,7 +46,7 @@ const CountryScreen = ({ route }) => {
             Native Name: <Text style={styles.text}>{nativeName}</Text>
           </Text>
           <Text style={styles.subtitle}>
-            Population: <Text style={styles.text}>{population.toLocaleString('en-US')}</Text>
+            Population: <Text style={styles.text}>{population?.toLocaleString('en-US')}</Text>
           </Text>
           <Text style={styles.subtitle}>
             Region: <Text style={styles.text}>{region}</Text>
@@ -62,7 +62,7 @@ const CountryScreen = ({ route }) => {
             Top Level Domain: <Text style={styles.text}>{tld}</Text>
           </Text>
           <Text style={styles.subtitle}>
-            Languages: <Text style={styles.text}>{languages.toString()}</Text>
+            Languages: <Text style={styles.text}>{languages?.toString()}</Text>
           </Text>
         </Surface>
         {filteredBorderCountries && filteredBorderCountries.length > 0 && (

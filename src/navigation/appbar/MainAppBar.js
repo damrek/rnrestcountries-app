@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Appbar } from 'react-native-paper';
-import { PreferencesContext } from '../../context/PreferencesContext';
+import PreferencesContext from '../../context/PreferencesContext';
 
 const MainAppBar = React.memo(({ navigation, route, back }) => {
   const { toggleTheme } = useContext(PreferencesContext);
